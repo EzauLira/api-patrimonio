@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Sistema Geenciamento de Patrimônio
+    name: Sistema Geenciamento de Patrimonio
 
   springdoc:
     api-docs:
@@ -10,7 +10,7 @@ spring:
 
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/patrimonio
+    url: jdbc:postgresql://localhost:5432/patrimonioDb
     username: postgres
     password: admin
 
