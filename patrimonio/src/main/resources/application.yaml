@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: Sistema Geenciamento de Patrimonio
+
+  springdoc:
+    api-docs:
+      path: /v1/api-docs
+    swagger-ui:
+      path: /swagger-ui.html
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/patrimonioDb
+    username: postgres
+    password: admin
+
+  hikari:
+    maximumPoolSize: 3
+    minimumIdle: 2
+    idleTimeout: 20000
+    poolName: SistemaParagerenciamentoDePatrimonio
+
