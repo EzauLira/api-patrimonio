@@ -13,7 +13,6 @@ public class Patrimony {
 
     private String numSerie;
     private String name;
-    //private int quantity;
     private String area;
     private String inputDate;
 }

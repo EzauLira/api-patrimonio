@@ -16,7 +16,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -146,7 +145,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
             throw new BaseException(e.getMostSpecificCause().getMessage());
         }catch (Exception e){
             LOGGER.error("Exception: {}", e.getMessage(), e);
-            throw new CustomException("Erro ao buscar produto no banco de dados.");
+            throw new CustomException("Erro ao checar a existencia do produto no banco de dados.");
         }
     }
 
@@ -240,7 +239,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
             throw new BaseException(e.getMostSpecificCause().getMessage());
         }catch (Exception e ){
             LOGGER.error("Exception: {}", e.getMessage(), e);
-            throw new CustomException("Erro ao listar os produtos.");
+            throw new CustomException("Erro ao listar os produtos da área.");
         }
     }
 
@@ -258,7 +257,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
             throw new BaseException(e.getMostSpecificCause().getMessage());
         }catch (Exception e){
             LOGGER.error("Exception: {}", e.getMessage(), e);
-            throw new CustomException("Erro ao remover produtos da tabela produtos.");
+            throw new CustomException("Erro ao restaurar produtos da tabela histórico removidos.");
 
         }
     }
@@ -282,7 +281,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
             throw new BaseException(e.getMostSpecificCause().getMessage());
         }catch (Exception e){
             LOGGER.error("Exception: {}", e.getMessage(), e);
-            throw new CustomException("Erro ao buscar produto no banco de dados.");
+            throw new CustomException("Erro ao buscar produto na tabela de removidos.");
         }
     }
 
@@ -303,7 +302,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
             throw new BaseException(e.getMostSpecificCause().getMessage());
         }catch (Exception e){
             LOGGER.error("Exception: {}", e.getMessage(), e);
-            throw new CustomException("Erro ao buscar produto no banco de dados.");
+            throw new CustomException("Erro na filtragem do produto no banco de dados.");
         }
     }
 
@@ -324,7 +323,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
             throw new BaseException(e.getMostSpecificCause().getMessage());
         }catch (Exception e){
             LOGGER.error("Exception: {}", e.getMessage(), e);
-            throw new CustomException("Erro ao buscar produto no banco de dados.");
+            throw new CustomException("Erro na filtragem do produto na tabela de histórico de removidos.");
         }
     }
 }

@@ -22,6 +22,7 @@ public class PartimonyController implements IPatrimonyController {
     @Autowired
     IPatimony iPatimonyService;
 
+    //-------------------------------------------------------------------------------------------------------------------------------
     @Override
     @PostMapping("/registrar")
     public ResponseEntity<StandardResponseDto> registerProduct(@RequestBody PatrimonyRequestDto patrimonyRequestDto) {
@@ -29,7 +30,11 @@ public class PartimonyController implements IPatrimonyController {
         iPatimonyService.rigisterProductCommand(patrimonyRequestDto);
         return ResponseEntity.ok(StandardResponseDto.builder().message("Produto registrado com sucesso!").build());
     }
+    //-------------------------------------------------------------------------------------------------------------------------------
 
+
+
+    //-------------------------------------------------------------------------------------------------------------------------------
     @Override
     @GetMapping("/listar-produtos")
     public List <PatrimonyResponseDto> listAllProducts(){
@@ -37,7 +42,25 @@ public class PartimonyController implements IPatrimonyController {
         return iPatimonyService.listAllProducts();
     }
 
-    //-------------------------------------------------------------------------------------
+    @Override
+    @GetMapping("/listar-produtos-removidos")
+    public List <PatrimonyResponseDto> listProductRemoved(){
+        LOGGER.info("Início do método para listar os produtos removidos - contoller  ");
+        return iPatimonyService.listProductRemoved();
+    }
+
+    @Override
+    @GetMapping("/listar-produtos-area/{area}")
+    public List<ProductDto> listAllProductsForArea(@PathVariable String area){
+        LOGGER.info("Início do método para listar todo os produtos pela Área - controller.");
+        return iPatimonyService.listAllProductsForArea(area);
+    }
+
+    //-------------------------------------------------------------------------------------------------------------------------------
+
+
+
+    //-------------------------------------------------------------------------------------------------------------------------------
     @Override
     @GetMapping("/detalhes-produto/{numSerie}")
     public PatrimonyRequestDto productDetails(@PathVariable String numSerie){
@@ -52,7 +75,11 @@ public class PartimonyController implements IPatrimonyController {
         return iPatimonyService.productDetailsRemoved(numSerie);
     }
 
-    //-------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------------------------------
+
+
+
+    //-------------------------------------------------------------------------------------------------------------------------------
     @Override
     @PutMapping("/alterar-produto/{numSerie}")
     public ResponseEntity<StandardResponseDto> updateProduct(@PathVariable String numSerie,@RequestBody Map<String, String> updates){
@@ -61,12 +88,11 @@ public class PartimonyController implements IPatrimonyController {
         return ResponseEntity.ok(StandardResponseDto.builder().message("Produto atualizado com sucesso!").build());
     }
 
-    @Override
-    @GetMapping("/listar-produtos-removidos")
-    public List <PatrimonyResponseDto> listProductRemoved(){
-        LOGGER.info("Início do método para listar os produtos removidos - contoller  ");
-        return iPatimonyService.listProductRemoved();
-    }
+    //-------------------------------------------------------------------------------------------------------------------------------
+
+
+
+    //-------------------------------------------------------------------------------------------------------------------------------
 
     @Override
     @PutMapping("/remover-produto/{numSerie}")
@@ -77,19 +103,19 @@ public class PartimonyController implements IPatrimonyController {
     }
 
     @Override
-    @GetMapping("/listar-produtos-area/{area}")
-    public List<ProductDto> listAllProductsForArea(@PathVariable String area){
-        LOGGER.info("Início do método para listar todo os produtos pela Área - controller.");
-        return iPatimonyService.listAllProductsForArea(area);
-    }
-
-    @Override
     @PutMapping("/restaurar-produto/{numSerie}")
     public ResponseEntity<StandardResponseDto> restoreRemovProduct(@PathVariable String numSerie){
         LOGGER.info("Início do método para remover um produto - controller");
         iPatimonyService.restoreRemoveProduct(numSerie);
         return ResponseEntity.ok(StandardResponseDto.builder().message("Produto Restaurado com sucesso").build());
+
     }
+
+    //-------------------------------------------------------------------------------------------------------------------------------
+
+
+
+    //-------------------------------------------------------------------------------------------------------------------------------
 
     @Override
     @GetMapping("/filtrar-produto")
@@ -110,4 +136,6 @@ public class PartimonyController implements IPatrimonyController {
         LOGGER.info("Início do método para filtrar o produto dos removidos - controller.");
         return iPatimonyService.filterProductRemoved(numSerie, name, area, inputDate);
     }
+
+    //-------------------------------------------------------------------------------------------------------------------------------
 }

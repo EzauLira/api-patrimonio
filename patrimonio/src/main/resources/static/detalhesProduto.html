@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detalhes</title>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons " rel="stylesheet">
+</head>
+
+<body>
+<div class="detalhes-container">
+    <h2>Detalhes do produto selecionado</h2>
+    <div id="detalhes-ativos"></div>
+
+    <table class="imagem">
+        <h2>Espaço para imagem</h2>
+    </table>
+
+    <table class="detalhes-tabela">
+        <tr>
+            <th>Número de série</th>
+            <td id="idProduto"></td>
+        </tr>
+        <tr>
+            <th>Nome</th>
+            <td id="nomeProduto"></td>
+        </tr>
+        <tr>
+            <th>Área</th>
+            <td id="areaProduto"></td>
+        </tr>
+        <tr>
+            <th>Data de entrada</th>
+            <td id="dataEntrada"></td>
+        </tr>
+    </table>
+
+    <br></br>
+    <button id="editar" onclick="filtrarProduto()">
+        <i class="material-icons">edit</i>
+    </button>
+
+    <button id="voltar">
+        <i class="material-icons">subdirectory_arrow_left</i>
+    </button>
+
+    <button id="remover" onclick="remover()">
+        <i class="material-icons">delete</i>
+    </button>
+</div>
+</div>
+
+<script src="/assets/js/detalhes.js"></script>
+</body>
+
+</html>

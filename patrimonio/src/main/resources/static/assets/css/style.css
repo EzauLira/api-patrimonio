@@ -1,0 +1,324 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(238, 228, 228);
+}
+
+.menu-container {
+    max-width: 300px;
+    margin: 150px auto;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.267);
+    text-align: center;
+    color: white;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 13px;
+    color: rgb(0, 0, 0);
+    background-color: #e98644;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+
+button:hover {
+    background-color: #2a7b00;
+}
+
+input {
+    padding: 8px;
+    border: 1px solid #CCC;
+}
+
+/* -----------------------------------PARTE DA FOTO---------------------------------------------- */
+
+.foto-container {
+    max-width: 300px;
+    margin: 150px auto;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.267);
+    text-align: center;
+    color: white;
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+
+/* -----------------------------------PARTE DO REGISTRO---------------------------------------------- */
+
+
+.registrar-container {
+    max-width: 300px;
+    margin: 150px auto;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.267);
+    text-align: center;
+    color: white;
+}
+
+.formulario input {
+    width: 95%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    color: rgb(0, 0, 0);
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+
+/* --------------------------------PARTE DA LISTA DE PRODUTOS------------------------------------------ */
+
+.listarProdutos-container {
+    max-width: 600px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    color: white;
+    text-align: center;
+}
+
+.formulario output {
+    width: 95%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    color: rgb(0, 0, 0);
+}
+
+.botoes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: white;
+}
+
+th,
+td {
+    border: 1px solid #444;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #333;
+}
+
+.filtro {
+    background-color: #1f1f1f;
+    text-align: center;
+    color: white;
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+
+
+/* --------------------------------PARTE DA LISTA DE PRODUTOS POR AREA------------------------------------------ */
+
+.listarProdutosArea-container {
+    max-width: 600px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    color: white;
+    text-align: center;
+}
+
+.formulario output {
+    width: 95%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    color: rgb(0, 0, 0);
+}
+
+.botoes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: white;
+}
+
+th,
+td {
+    border: 1px solid #444;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #333;
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+
+
+/* --------------------------------PARTE DA LISTA DE PRODUTOS POR AREA------------------------------------------ */
+
+.detalhes-container {
+    max-width: 600px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    color: white;
+    text-align: center;
+}
+
+.botoes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: white;
+}
+
+th,
+td {
+    border: 1px solid #444;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #333;
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+
+
+/* --------------------------------PARTE DO DETALHES DO PRODUTO------------------------------------------ */
+
+.detalhes-tabela {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+  font-size: 1.1rem;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.detalhes-tabela th,
+.detalhes-tabela td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid black;
+  color: black;
+}
+
+.detalhes-tabela th {
+  background-color: #efefef;
+  font-weight: bold;
+  width: 40%;
+  color: black;
+}
+
+
+/* ---------------------------------------------------------------------------------------------------- */
+
+
+/* ---------------------------PARTE DA LISTA DE PRODUTOS REMOVIDOS------------------------------------- */
+
+
+
+/* ---------------------------------------------------------------------------------------------------- */
+
+
+/* ---------------------------PARTE DO FILTRO PRODUTO------------------------------------- */
+
+
+.filtro-container {
+    max-width: 300px;
+    margin: 150px auto;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.267);
+    text-align: center;
+    color: white;
+}
+
+.formulario-filtro input {
+    width: 95%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    color: rgb(0, 0, 0);
+}
+
+
+/* ---------------------------------------------------------------------------------------------------- */
+
+
+
+button.material-icons-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0; /* cor de fundo (opcional) */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 20px; /* tamanho do ícone */
+}
+
+button.material-icons-button .material-icons {
+  font-size: 20px;
+  line-height: 20px;
+  color: black;
+}
+
+button.material-icons-button:hover {
+  background-color: #e0e0e0;
+}

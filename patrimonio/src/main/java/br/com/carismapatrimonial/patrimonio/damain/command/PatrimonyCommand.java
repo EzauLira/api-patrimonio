@@ -7,11 +7,11 @@ import br.com.carismapatrimonial.patrimonio.damain.entities.Patrimony;
 import br.com.carismapatrimonial.patrimonio.damain.exception.CustomException;
 import br.com.carismapatrimonial.patrimonio.port.input.IPatimony;
 import br.com.carismapatrimonial.patrimonio.port.output.IPatrimonyRepository;
+import br.com.carismapatrimonial.patrimonio.utils.validadores.ValidationDateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Map;
@@ -24,20 +24,32 @@ public class PatrimonyCommand implements IPatimony {
     @Autowired
     IPatrimonyRepository iPatrimonyRepository;
 
+    //-------------------------------------------------------------------------------------------------------------------------------
     @Override
     public void rigisterProductCommand (PatrimonyRequestDto patrimonyRequestDto) {
         LOGGER.info("Início do método para registrar o produto - Service.");
+
+        ValidationDateUtils validationDateUtils = new ValidationDateUtils();
+
+        String newDate = validationDateUtils.conveterDate(patrimonyRequestDto.getInputDate());
 
         LOGGER.info("Inicio da construção do objeto - Service");
         Patrimony patrimony = Patrimony
                 .builder().name(patrimonyRequestDto.getName())
                 .area(patrimonyRequestDto.getArea())
-                .inputDate(patrimonyRequestDto.getInputDate())
+                .inputDate(newDate)
                 .build();
 
         LOGGER.info("Entrando no método Reposiótio pela - Service ");
         iPatrimonyRepository.registerProductPatrimony(patrimony);
     }
+
+    //-------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+    //-------------------------------------------------------------------------------------------------------------------------------
 
     @Override
     public List<PatrimonyResponseDto> listAllProducts(){
@@ -46,13 +58,41 @@ public class PatrimonyCommand implements IPatimony {
         LOGGER.info("Início da verificação se a lista está vazia no banco de dados - Service.");
         List<PatrimonyResponseDto> list = iPatrimonyRepository.listAllProducts();
         if(list.isEmpty()){
-            throw new CustomException("Lista está vazia");
+            throw new CustomException("A lista de produtos está vazia no momento. Que tal cadastrar um novo produto?");
         }
 
         return list;
     }
 
-    //-------------------------------------------------------------------------------------
+    @Override
+    public List<PatrimonyResponseDto> listProductRemoved( ){
+        LOGGER.info("Início do método para listagem de todos os produtos removidos - Service.");
+
+        LOGGER.info("Início da verificação se existe o produto no banco de dados - Service.");
+        List<PatrimonyResponseDto> list = iPatrimonyRepository.listProductRemoved();
+        if (list.isEmpty()){
+            throw new CustomException("Parece que a lista está vazia.");
+        }
+        return list;
+    }
+
+    @Override
+    public List<ProductDto> listAllProductsForArea(String area){
+        LOGGER.info("Início do método para listagem de todos os produtos cadastrados pela Área - Service.");
+
+        LOGGER.info("Início da verificação se a lista está vazia no banco de dados - Service.");
+        List<ProductDto> products = iPatrimonyRepository.listAllProductsForArea(area);
+        if(products.isEmpty()){
+            throw new CustomException("Ainda não há produtos cadastrados para esta área. Que tal começar a adicionar alguns agora?");
+        }
+
+        return products;
+    }
+
+    //-------------------------------------------------------------------------------------------------------------------------------
+
+
+    //-------------------------------------------------------------------------------------------------------------------------------
     @Override
     public PatrimonyRequestDto productDetails(String numSerie){
         LOGGER.info("Início do método para busca de um produto - Service.");
@@ -60,7 +100,7 @@ public class PatrimonyCommand implements IPatimony {
         LOGGER.info("Início da verificação se existe o produto no banco de dados - Service.");
         List<PatrimonyRequestDto> checkNumSerie = iPatrimonyRepository.checkProduct(numSerie);
         if (checkNumSerie.isEmpty())
-            throw new CustomException("Produto não encontrado.");
+            throw new CustomException("Não foi possível encontrar o produto. Verifique os dados informados e tente novamente.");
 
         LOGGER.info("Entrando no método do Reposiótio pela - Service ");
         return iPatrimonyRepository.productDetails(numSerie);
@@ -74,15 +114,17 @@ public class PatrimonyCommand implements IPatimony {
         LOGGER.info("Início da verificação se existe o produto no banco de dados - Service.");
         List<PatrimonyRequestDto> checkNumSerie = iPatrimonyRepository.checkProductRemoved(numSerie);
         if (checkNumSerie.isEmpty())
-            throw new CustomException("Produto não encontrado.");
+            throw new CustomException("Parece que o produto não faz parte da lista de itens removidos.");
 
         LOGGER.info("Entrando no método do Reposiótio pela - Service ");
         return iPatrimonyRepository.productDetailsRemoved(numSerie);
 
     }
+    //-------------------------------------------------------------------------------------------------------------------------------
 
-    //-------------------------------------------------------------------------------------
 
+
+    //-------------------------------------------------------------------------------------------------------------------------------
     @Override
     public void updateProduct(String numSerie, Map<String, String> updates){
         LOGGER.info("Início do método para alterar a area do produto - Service.");
@@ -90,24 +132,15 @@ public class PatrimonyCommand implements IPatimony {
         LOGGER.info("Início da verificação se existe o produto no banco de dados - Service.");
         List<PatrimonyRequestDto> checkNumSerie = iPatrimonyRepository.checkProduct(numSerie);
         if (checkNumSerie.isEmpty())
-            throw new CustomException("Produto não encontrado.");
+            throw new CustomException("Ops! Não conseguimos encontrar o produto. Confira as informações e tente outra vez.");
 
         LOGGER.info("Entrando no método do Reposiótio pela - Service ");
         iPatrimonyRepository.updateProduct(numSerie, updates);
     }
+    //-------------------------------------------------------------------------------------------------------------------------------
 
-    @Override
-    public List<PatrimonyResponseDto> listProductRemoved( ){
-        LOGGER.info("Início do método para listagem de todos os produtos removidos - Service.");
 
-        LOGGER.info("Início da verificação se existe o produto no banco de dados - Service.");
-        List<PatrimonyResponseDto> list = iPatrimonyRepository.listProductRemoved();
-        if (list.isEmpty()){
-            throw new CustomException("lista está vazia");
-        }
-        return list;
-    }
-
+    //-------------------------------------------------------------------------------------------------------------------------------
     @Override
     public void removeProduct(String numSerie){
         LOGGER.info("Início do método para remover um produto - Service.");
@@ -116,24 +149,13 @@ public class PatrimonyCommand implements IPatimony {
         LOGGER.info("Início da verificação se existe o produto no banco de dados - Service.");
         List<PatrimonyRequestDto> checkNumSerie = iPatrimonyRepository.checkProduct(numSerie);
         if (checkNumSerie.isEmpty())
-            throw new CustomException("Produto não encontrado.");
+            throw new CustomException("O produto que você tentou remover não foi encontrado. Por favor, verifique os dados e tente novamente.");
 
         LOGGER.info("Entrando no método do Reposiótio pela - Service ");
         iPatrimonyRepository.removeProduct(numSerie);
     }
 
-    @Override
-    public List<ProductDto> listAllProductsForArea(String area){
-        LOGGER.info("Início do método para listagem de todos os produtos cadastrados pela Área - Service.");
 
-        LOGGER.info("Início da verificação se a lista está vazia no banco de dados - Service.");
-        List<ProductDto> products = iPatrimonyRepository.listAllProductsForArea(area);
-        if(products.isEmpty()){
-            throw new CustomException("Nenhum produto cadastrado para a área informada.");
-        }
-
-        return products;
-    }
 
     @Override
     public void restoreRemoveProduct(String numSerie){
@@ -143,19 +165,23 @@ public class PatrimonyCommand implements IPatimony {
         LOGGER.info("Início da verificação se existe o produto no banco de dados - Service.");
         List<PatrimonyRequestDto> checkNumSerie = iPatrimonyRepository.checkProductRemoved(numSerie);
         if (checkNumSerie.isEmpty())
-            throw new CustomException("Produto não encontrado.");
+            throw new CustomException("O produto que você tentou restaurar não foi encontrado na lista de removidos. Por favor, verifique os dados e tente novamente.");
 
         LOGGER.info("Entrando no método do Reposiótio pela - Service ");
         iPatrimonyRepository.restoreRemoveProduct(numSerie);
     }
+    //-------------------------------------------------------------------------------------------------------------------------------
 
+
+
+    //-------------------------------------------------------------------------------------------------------------------------------
     @Override
     public List<PatrimonyRequestDto> filterProduct(String numSerie, String name, String area, String inputDate){
         LOGGER.info("Início do método para filtrar o produto - Service.");
 
         List<PatrimonyRequestDto> products = iPatrimonyRepository.filterProduct(numSerie, name, area, inputDate);
         if (products.isEmpty())
-            throw new CustomException("Nenhum produto encontrado para os filtros fornecidos.");
+            throw new CustomException("Nenhum produto encontrado com os filtros aplicados. Por favor, ajuste os critérios e tente novamente.");
         return products;
     }
 
@@ -165,8 +191,10 @@ public class PatrimonyCommand implements IPatimony {
 
         List<PatrimonyRequestDto> products = iPatrimonyRepository.filterProductRemoved(numSerie, name, area, inputDate);
         if (products.isEmpty())
-            throw new CustomException("Nenhum produto encontrado para os filtros fornecidos.");
+            throw new CustomException("Nenhum produto removido encontrado para os filtros aplicados. Por favor, ajuste os critérios de busca.");
         return products;
     }
+
+    //-------------------------------------------------------------------------------------------------------------------------------
 }
 
