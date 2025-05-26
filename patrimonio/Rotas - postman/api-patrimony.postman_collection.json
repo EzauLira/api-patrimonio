@@ -1,0 +1,242 @@
+{
+	"info": {
+		"_postman_id": "0fcadb8e-2e93-4560-bc6b-3c24daf4488a",
+		"name": "api-patrimony",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "34102635",
+		"_collection_link": "https://bh5555-2384.postman.co/workspace/api-patrimonio~56b6d3f7-2ccd-4a22-9b6a-e6986e71e149/collection/34102635-0fcadb8e-2e93-4560-bc6b-3c24daf4488a?action=share&source=collection_link&creator=34102635"
+	},
+	"item": [
+		{
+			"name": "Menu Principal",
+			"item": [
+				{
+					"name": "Registrar",
+					"item": [
+						{
+							"name": "Registrar Produto",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Cabo P10\",\r\n    \"quantity\": 10,\r\n    \"area\":\"Estúdio\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8080/v1/controle/registrar"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Lista de todos os Produtos",
+					"item": [
+						{
+							"name": "Detalhes",
+							"item": [
+								{
+									"name": "Detalhes - Lista ativa",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": "http://localhost:8080/v1/controle/buscar-produto/cabo p10"
+									},
+									"response": []
+								},
+								{
+									"name": "Editar",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Cabo P10\",\r\n    \"area\": \"Estúdio\",\r\n    \"inputDate\": \"06/05/2025\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "http://localhost:8080/v1/controle/alterar-produto/0017"
+									},
+									"response": []
+								},
+								{
+									"name": "Remover",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "http://localhost:8080/v1/controle/remover-produto/0017"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Filtro",
+							"item": [
+								{
+									"name": "Filtrar",
+									"request": {
+										"method": "GET",
+										"header": []
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Listar Produtos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8080/v1/controle/listar-produtos"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Listar por Área",
+					"item": [
+						{
+							"name": "Detalhes",
+							"item": [
+								{
+									"name": "Detalhes",
+									"request": {
+										"method": "GET",
+										"header": []
+									},
+									"response": []
+								},
+								{
+									"name": "Editar",
+									"request": {
+										"method": "PUT",
+										"header": []
+									},
+									"response": []
+								},
+								{
+									"name": "Remover",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "http://localhost:8080/v1/controle/remover-produto/0010"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Filtro",
+							"item": [
+								{
+									"name": "Filtro - ainda fazer",
+									"request": {
+										"method": "GET",
+										"header": []
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Listar por Área",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8080/v1/controle/listar-produtos-area/microondas"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Lista de Produtos Removidos",
+					"item": [
+						{
+							"name": "Detalhes",
+							"item": [
+								{
+									"name": "Restaurar",
+									"request": {
+										"method": "POST",
+										"header": []
+									},
+									"response": []
+								},
+								{
+									"name": "Detalhes - Lista removidos",
+									"request": {
+										"method": "GET",
+										"header": []
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Filtro",
+							"item": [
+								{
+									"name": "Filtrar - ainda fazer",
+									"request": {
+										"method": "GET",
+										"header": []
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Listar Produtos Removidos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8080/v1/controle/listar-produtos-removidos"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,16 +1,24 @@
 package br.com.carismapatrimonial.patrimonio.utils.validadores;
 
+import br.com.carismapatrimonial.patrimonio.damain.exception.CustomException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class ValidationDateUtils {
-    public String conveterDate(String inputDate){
 
-        DateTimeFormatter originalformate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter newFormater = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    public String converterDate(String inputDate) {
+        String[] possiblePatterns = {"yyyy-MM-dd", "dd/MM/yyyy", "dd-MM-yyyy"};
 
-        LocalDate date = LocalDate.parse(inputDate, originalformate);
-
-        return date.format(newFormater);
+        for (String pattern : possiblePatterns) {
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+                LocalDate date = LocalDate.parse(inputDate, formatter);
+                return date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            } catch (CustomException e) {
+               throw new CustomException("Formato de data inválido.");
+            }
+        }
+        throw new IllegalArgumentException("Formato de data inválido: " + inputDate);
     }
 }

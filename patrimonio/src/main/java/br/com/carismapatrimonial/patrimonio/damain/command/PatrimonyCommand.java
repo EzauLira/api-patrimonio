@@ -31,7 +31,7 @@ public class PatrimonyCommand implements IPatimony {
 
         ValidationDateUtils validationDateUtils = new ValidationDateUtils();
 
-        String newDate = validationDateUtils.conveterDate(patrimonyRequestDto.getInputDate());
+        String newDate = validationDateUtils.converterDate(patrimonyRequestDto.getInputDate());
 
         LOGGER.info("Inicio da construção do objeto - Service");
         Patrimony patrimony = Patrimony
