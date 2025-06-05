@@ -8,6 +8,7 @@ import br.com.carismapatrimonial.patrimonio.damain.exception.BaseException;
 import br.com.carismapatrimonial.patrimonio.damain.exception.CustomException;
 import br.com.carismapatrimonial.patrimonio.port.output.IPatrimonyRepository;
 import br.com.carismapatrimonial.patrimonio.utils.JdbcUtilsForUpdate;
+import org.apache.el.parser.JJTELParserState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,12 @@ public class PatrimonyRepository implements IPatrimonyRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PatrimonyRepository.class);
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
+
+    private final JdbcTemplate jdbcTemplate;
+
+    public PatrimonyRepository(JdbcTemplate jdbcTemplate){
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public void registerProductPatrimony(Patrimony patrimony) {
@@ -34,7 +39,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
 
         LOGGER.info("Início do Try-Catch e preparamento do objeto para subir no Banco de dados");
         try {
-            String sql = "SELECT * FROM inserir_produtos(?, ?, ?)";
+            var sql = "SELECT * FROM inserir_produtos(?, ?, ?)";
             jdbcTemplate.execute(sql, (PreparedStatementCallback<Void>) preparedStatment -> {
                 preparedStatment.setString(1, patrimony.getName());
                 preparedStatment.setString(2, patrimony.getArea());
@@ -57,7 +62,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
 
         LOGGER.info("Início do Try-Catch e preparamento para listagem dos produtos do banco de dados.");
         try {
-            String sql = "SELECT * FROM listar_produtos()";
+            var sql = "SELECT * FROM listar_produtos()";
 
             return jdbcTemplate.query(sql, new Object[]{}, (rs, rowNum) ->
                     new PatrimonyResponseDto(
@@ -85,7 +90,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
 
         LOGGER.info("Início do try-catch e busca dos dados no banco de dados pela repository.");
         try{
-            String sql = "SELECT * FROM detalhe_produto(?)";
+            var sql = "SELECT * FROM detalhe_produto(?)";
             return jdbcTemplate.queryForObject(sql, new Object[]{numSerie}, (rs, rowNum) ->
                 new PatrimonyRequestDto(rs.getString("num_serie")
                         ,rs.getString("name")
@@ -108,7 +113,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
 
         LOGGER.info("Início do try-catch e busca dos dados no banco de dados pela repository.");
         try{
-            String sql = "SELECT * FROM detalhe_produto_removido(?)";
+            var sql = "SELECT * FROM detalhe_produto_removido(?)";
             return jdbcTemplate.queryForObject(sql, new Object[]{numSerie}, (rs, rowNum) ->
                     new PatrimonyRequestDto(rs.getString("num_serie")
                             ,rs.getString("name")
@@ -133,7 +138,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
 
         LOGGER.info("Início do try-catch e busca dos dados no banco de dados pela repository.");
         try{
-            String sql = "SELECT * FROM buscar_produto(?)";
+            var sql = "SELECT * FROM buscar_produto(?)";
             return jdbcTemplate.query(sql, new Object[]{numSerie}, (rs, rowNum) ->
                     new PatrimonyRequestDto( rs.getString("num_serie"),
                             rs.getString("name")
@@ -155,7 +160,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
 
         LOGGER.info("Início do try-catch e atualizar a area dos dados no banco de dados pela repository.");
         try {
-            String sql = "SELECT * FROM atualizar_produto(?, ?, ?, ?)";
+            var sql = "SELECT * FROM atualizar_produto(?, ?, ?, ?)";
 
             List<String> params = JdbcUtilsForUpdate.buildParameters(numSerie, updates, "name", "area","inputDate");
 
@@ -182,7 +187,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
 
         LOGGER.info("Início do Try-Catch e preparamento para listagem dos produtos removidos do banco de dados.");
         try{
-            String sql = "SELECT * FROM listar_produtos_removidos()";
+            var sql = "SELECT * FROM listar_produtos_removidos()";
             return jdbcTemplate.query(sql, new Object[]{}, (rs, rowNum) ->
                     new PatrimonyResponseDto( rs.getString("num_serie"),
                             rs.getString("name"),
@@ -206,7 +211,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
         LOGGER.info("Início do método para remover produtos da tabela produtos e enviar para tabela histórico de removidos.");
 
         try{
-            String sql = "CALL remover_produto(?)";
+            var sql = "CALL remover_produto(?)";
 
             jdbcTemplate.update(sql, numSerie);
 
@@ -225,7 +230,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
         LOGGER.info("Início do método para listagem de todos os produtos do patrimônio pela Área - Repository");
 
         try {
-            String sql = "SELECT * FROM buscar_produto_area(?)";
+            var sql = "SELECT * FROM buscar_produto_area(?)";
 
             return jdbcTemplate.query(sql, new Object[]{area}, (rs, rowNum) ->
                     new ProductDto(
@@ -248,7 +253,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
         LOGGER.info("Início do método para restaurar produtos da tabela historico de produtos removidos e enviar para tabela produtos.");
 
         try{
-            String sql = "CALL restaurar_produto(?)";
+            var sql = "CALL restaurar_produto(?)";
 
             jdbcTemplate.update(sql, numSerie);
 
@@ -269,7 +274,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
 
         LOGGER.info("Início do try-catch e busca dos dados no banco de dados pela repository.");
         try{
-            String sql = "SELECT * FROM buscar_produto_removido(?)";
+            var sql = "SELECT * FROM buscar_produto_removido(?)";
             return jdbcTemplate.query(sql, new Object[]{numSerie}, (rs, rowNum) ->
                     new PatrimonyRequestDto( rs.getString("num_serie"),
                             rs.getString("name")
@@ -290,7 +295,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
         LOGGER.info("Início do método para filtrar um produto - Repository.");
 
         try{
-            String sql = "SELECT * FROM filtrar_produto(?, ?, ?, ?)";
+            var sql = "SELECT * FROM filtrar_produto(?, ?, ?, ?)";
             return jdbcTemplate.query(sql, new Object[]{numSerie, name, area, inputDate}, (rs, rowNum) ->
                     new PatrimonyRequestDto( rs.getString("num_serie"),
                             rs.getString("name")
@@ -311,7 +316,7 @@ public class PatrimonyRepository implements IPatrimonyRepository {
         LOGGER.info("Início do método para filtrar um produto dos removidos - Repository.");
 
         try{
-            String sql = "SELECT * FROM filtrar_produto_removido(?, ?, ?, ?)";
+            var sql = "SELECT * FROM filtrar_produto_removido(?, ?, ?, ?)";
             return jdbcTemplate.query(sql, new Object[]{numSerie, name, area, inputDate}, (rs, rowNum) ->
                     new PatrimonyRequestDto( rs.getString("num_serie"),
                             rs.getString("name")

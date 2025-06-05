@@ -21,20 +21,23 @@ public class PatrimonyCommand implements IPatimony {
 
     private final Logger LOGGER = LoggerFactory.getLogger(PatrimonyCommand.class);
 
-    @Autowired
-    IPatrimonyRepository iPatrimonyRepository;
+    private final IPatrimonyRepository iPatrimonyRepository;
+
+    public PatrimonyCommand(IPatrimonyRepository iPatrimonyRepository){
+        this.iPatrimonyRepository = iPatrimonyRepository;
+    }
 
     //-------------------------------------------------------------------------------------------------------------------------------
     @Override
     public void rigisterProductCommand (PatrimonyRequestDto patrimonyRequestDto) {
         LOGGER.info("Início do método para registrar o produto - Service.");
 
-        ValidationDateUtils validationDateUtils = new ValidationDateUtils();
+        var validationDateUtils = new ValidationDateUtils();
 
-        String newDate = validationDateUtils.converterDate(patrimonyRequestDto.getInputDate());
+        var newDate = validationDateUtils.converterDate(patrimonyRequestDto.getInputDate());
 
         LOGGER.info("Inicio da construção do objeto - Service");
-        Patrimony patrimony = Patrimony
+        var patrimony = Patrimony
                 .builder().name(patrimonyRequestDto.getName())
                 .area(patrimonyRequestDto.getArea())
                 .inputDate(newDate)

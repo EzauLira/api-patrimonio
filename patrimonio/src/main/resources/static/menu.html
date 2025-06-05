@@ -6,20 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Patrimônio</title>
     <link rel="stylesheet" href="/assets/css/style.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons " rel="stylesheet">
 </head>
 
 <body>
     <div class="menu-container">
-        <div class="menu">
-            <button id="registrar" >Registrar</button>
+        <div class="menu-btn">
+            <button id="registrar" >Registrar <i class="material-icons">add</i> </button>
             <br></br>
-            <button id="listarProdutosArea" onclick="listarPorArea()">Listar por Área</button>
+            <button id="listarProdutosRemovidos" >Listar Produtos Removidos <i class="material-icons">playlist_remove</i> </button>
             <br></br>
-            <button id="listarProdutos" >Listar Todos os Produtos</button>
+            <button id="listarProdutosArea" onclick="listarPorArea()">Listar Produtos por Área <i class="material-icons">checklist</i></button>
             <br></br>
-            <button id="listarProdutosRemovidos" >Listar Produtos Removidos</button>
+            <button id="listarProdutos" >Listar Todos os Produtos <i class="material-icons">list</i> </button>
             <br></br>
-            <button onclick="abrirScanner()">Escanear</button>
+            <button id="scanner" onclick="abrirScanner()">Escanear <i class="material-icons">qr_code_scanner</i> </button>
         </div>
     </div>
 

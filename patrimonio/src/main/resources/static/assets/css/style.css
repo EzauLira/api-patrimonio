@@ -16,6 +16,21 @@ body {
     color: white;
 }
 
+.menu-container button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: rgb(0, 0, 0);
+    background-color: #e98644;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 230px;
+}
+
 button {
     padding: 10px 20px;
     font-size: 13px;
@@ -24,7 +39,6 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-
 }
 
 button:hover {
@@ -35,21 +49,6 @@ input {
     padding: 8px;
     border: 1px solid #CCC;
 }
-
-/* -----------------------------------PARTE DA FOTO---------------------------------------------- */
-
-.foto-container {
-    max-width: 300px;
-    margin: 150px auto;
-    padding: 20px;
-    background-color: #1f1f1f;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.267);
-    text-align: center;
-    color: white;
-}
-
-/* ---------------------------------------------------------------------------------------------------- */
 
 /* -----------------------------------PARTE DO REGISTRO---------------------------------------------- */
 
@@ -295,30 +294,40 @@ th {
 
 
 /* ---------------------------------------------------------------------------------------------------- */
+/* ---------------------------------------PARTE DO SCANNER------------------------------------------- */
 
-
-
-button.material-icons-button {
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  margin: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f0f0f0; /* cor de fundo (opcional) */
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 20px; /* tamanho do ícone */
+.scanner-container {
+    max-width: 300px;
+    margin: 150px auto;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.267);
+    text-align: center;
+    color: white;
 }
 
-button.material-icons-button .material-icons {
-  font-size: 20px;
-  line-height: 20px;
-  color: black;
+/* ---------------------------------------------------------------------------------------------------- */
+
+
+/* ---------------------------------------PARTE DO SCANNER------------------------------------------- */
+
+#camera {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #00000050;
+    margin-bottom: 10px;
 }
 
-button.material-icons-button:hover {
-  background-color: #e0e0e0;
+/* ---------------------------------------------------------------------------------------------------- */
+
+#previewImagem {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #00000050;
+    margin-bottom: 10px;
 }
