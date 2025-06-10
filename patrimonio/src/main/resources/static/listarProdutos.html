@@ -6,6 +6,14 @@
     <title>Listar Produtos Ativos</title>
     <link rel="stylesheet" href="/assets/css/style.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <link rel="manifest" href="manifest.json" />
+    <script>
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/sw.js');
+        }
+    </script>
+
 </head>
 <body>
 <div class="listarProdutos-container">

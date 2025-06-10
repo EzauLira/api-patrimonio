@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="/assets/css/style.css" />
     <script src="https://unpkg.com/html5-qrcode"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="manifest" href="manifest.json" />
+    <script>
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/sw.js');
+        }
+    </script>
+
 </head>
 <body>
 <div class="scanner-container">
