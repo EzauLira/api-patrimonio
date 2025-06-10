@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detalhes do Produto</title>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<div class="detalhes-container">
+    <h2>Detalhes do Produto Escaneado</h2>
+
+    <table class="detalhes-tabela">
+        <tr>
+            <td id="foto" colspan="2">Nenhuma imagem disponível</td>
+        </tr>
+        <tr><th>Número de Série</th><td id="idProduto"></td></tr>
+        <tr><th>Nome</th><td id="nomeProduto"></td></tr>
+        <tr><th>Área</th><td id="areaProduto"></td></tr>
+        <tr><th>Data de Entrada</th><td id="dataEntrada"></td></tr>
+    </table>
+
+    <div class="botoes">
+        <button id="editar" title="Editar"><i class="material-icons">edit</i></button>
+        <button id="remover" title="Remover"><i class="material-icons">delete</i></button>
+        <button id="voltar" title="Voltar"><i class="material-icons">subdirectory_arrow_left</i></button>
+    </div>
+</div>
+
+<script src="/assets/js/detalhesProdutoScanner.js"></script>
+</body>
+</html>

@@ -148,8 +148,6 @@ public class PatrimonyCommand implements IPatimony {
     public void updateProduct(String numSerie, Map<String, String> updates){
         LOGGER.info("Início do método para alterar a area do produto - Service.");
 
-        
-
         LOGGER.info("Início da verificação se existe o produto no banco de dados - Service.");
         List<PatrimonyRequestDto> checkNumSerie = iPatrimonyRepository.checkProduct(numSerie);
         if (checkNumSerie.isEmpty())

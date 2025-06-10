@@ -15,7 +15,7 @@ function startScan() {
     (decodedText, decodedResult) => {
       scanner.stop().then(() => {
         // Redireciona com id decodificado (pode ajustar o parâmetro se usar outro nome)
-        window.location.href = `detalhesProduto.html?id=${encodeURIComponent(decodedText)}`;
+        window.location.href = `detalhesProdutoScanner.html?id=${encodeURIComponent(decodedText)}`;
       }).catch(err => {
         console.error("Erro ao parar o scanner:", err);
       });
