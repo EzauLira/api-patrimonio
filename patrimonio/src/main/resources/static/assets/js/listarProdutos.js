@@ -1,45 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const voltarButton = document.getElementById("voltar");
-  const filtrarButton = document.getElementById("filtrar");
+  const btnVoltar = document.getElementById("voltar");
+  const btnFiltrar = document.getElementById("filtrar");
   const filtroForm = document.getElementById("filtro-form");
-  const ocultarFiltroButton = document.getElementById("ocultarFiltroBtn");
+  const btnOcultarFiltro = document.getElementById("ocultarFiltroBtn");
+  const btnAplicarFiltro = document.getElementById("aplicarFiltroBtn");
 
-  // Começa oculto
-  filtroForm.style.display = "none";
+  filtroForm.style.display = "none"; // Oculta o filtro inicialmente
 
-  voltarButton.addEventListener("click", () => {
+  btnVoltar.addEventListener("click", () => {
     window.location.href = "menu.html";
   });
 
-  filtrarButton.addEventListener("click", () => {
+  btnFiltrar.addEventListener("click", () => {
     filtroForm.style.display = "block";
-    filtrarButton.style.display = "none";
+    btnFiltrar.style.display = "none";
   });
 
-  ocultarFiltroButton.addEventListener("click", () => {
+  btnOcultarFiltro.addEventListener("click", () => {
     filtroForm.style.display = "none";
-    filtrarButton.style.display = "inline-block";
+    btnFiltrar.style.display = "inline-block";
   });
 
-  // Carrega os produtos ao abrir a página
+  btnAplicarFiltro.addEventListener("click", aplicarFiltro);
+
+  carregarProdutos();
+});
+
+function carregarProdutos() {
   fetch("http://localhost:8080/v1/controle/listar-produtos")
-    .then((response) => {
+    .then(response => {
       if (!response.ok) throw new Error("Erro ao buscar os produtos.");
       return response.json();
     })
-    .then((data) => mostrarProdutos(data))
-    .catch((error) => {
-      console.error("Erro:", error);
-      document.getElementById("lista-produtos").innerHTML =
-        "<p>Erro ao carregar os produtos.</p>";
+    .then(produtos => mostrarProdutos(produtos))
+    .catch(erro => {
+      console.error("Erro ao carregar os produtos:", erro);
+      document.getElementById("lista-produtos").innerHTML = "<p>Erro ao carregar os produtos.</p>";
     });
-});
+}
 
 function mostrarProdutos(produtos) {
   const container = document.getElementById("lista-produtos");
   container.innerHTML = "";
 
-  if (!produtos || produtos.length === 0) {
+  if (!Array.isArray(produtos) || produtos.length === 0) {
     container.innerHTML = "<p>Nenhum produto encontrado.</p>";
     return;
   }
@@ -56,26 +60,31 @@ function mostrarProdutos(produtos) {
       </tr>
     </thead>
     <tbody>
-      ${produtos
-        .map(
-          (p) => `
+      ${produtos.map(p => `
         <tr>
           <td>${p.numSerie}</td>
           <td>${p.name}</td>
           <td>${p.area}</td>
           <td>${p.inputDate}</td>
-          <td><button onclick="verDetalhes('${p.numSerie}', '${p.area}')"><i class="material-icons">content_paste_search</i></button></td>
+          <td>
+            <button class="btn-detalhes" data-numserie="${p.numSerie}" data-area="${p.area}" title="Ver Detalhes">
+              <i class="material-icons">content_paste_search</i>
+            </button>
+          </td>
         </tr>
-      `
-        )
-        .join("")}
+      `).join("")}
     </tbody>
   `;
   container.appendChild(tabela);
-}
 
-function verDetalhes(numSerie, area, origem) {
-  window.location.href = `detalhesProduto.html?numSerie=${numSerie}&area=${area}&origem=${origem}`;
+  // Eventos para os botões de detalhes
+  document.querySelectorAll(".btn-detalhes").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const numSerie = btn.dataset.numserie;
+      const area = btn.dataset.area;
+      window.location.href = `detalhesProduto.html?numSerie=${numSerie}&area=${area}&origem=listaTodos`;
+    });
+  });
 }
 
 function aplicarFiltro() {
@@ -85,24 +94,22 @@ function aplicarFiltro() {
   const data = document.getElementById("filtroData").value;
 
   fetch("http://localhost:8080/v1/controle/listar-produtos")
-    .then((response) => {
+    .then(response => {
       if (!response.ok) throw new Error("Erro ao buscar os produtos.");
       return response.json();
     })
-    .then((produtos) => {
-      const filtrados = produtos.filter((p) => {
+    .then(produtos => {
+      const filtrados = produtos.filter(p => {
         const matchSerie = !numSerie || p.numSerie.toLowerCase().includes(numSerie);
         const matchNome = !nome || p.name.toLowerCase().includes(nome);
         const matchArea = !area || p.area.toLowerCase().includes(area);
         const matchData = !data || p.inputDate === data;
         return matchSerie && matchNome && matchArea && matchData;
       });
-
       mostrarProdutos(filtrados);
     })
-    .catch((error) => {
-      console.error("Erro:", error);
-      document.getElementById("lista-produtos").innerHTML =
-        "<p>Erro ao carregar os produtos.</p>";
+    .catch(error => {
+      console.error("Erro ao aplicar filtro:", error);
+      document.getElementById("lista-produtos").innerHTML = "<p>Erro ao carregar os produtos.</p>";
     });
 }

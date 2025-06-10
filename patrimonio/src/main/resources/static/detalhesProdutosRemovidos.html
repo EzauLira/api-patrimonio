@@ -11,28 +11,22 @@
 <div class="detalhes-container">
     <h2>Detalhes do Produto Removido</h2>
 
-    <table class="imagem">
-        <h2>Espaço para imagem</h2>
-    </table>
-
     <table class="detalhes-tabela">
+        <tr><td id="foto" colspan="2">Nenhuma imagem disponível</td></tr>
         <tr><th>Nº de Série</th><td id="idProduto"></td></tr>
         <tr><th>Nome</th><td id="nomeProduto"></td></tr>
         <tr><th>Área</th><td id="areaProduto"></td></tr>
         <tr><th>Data de Entrada</th><td id="dataEntrada"></td></tr>
     </table>
 
-    <br />
-
-    <button id="restaurar">
-        <i class="material-icons">restore_from_trash</i>
-    </button>
-
-    <button id="voltar">
-        <i class="material-icons">subdirectory_arrow_left</i>
-    </button>
-
-
+    <div class="botoes">
+        <button id="restaurar" title="Restaurar Produto">
+            <i class="material-icons">restore_from_trash</i>
+        </button>
+        <button id="voltar" title="Voltar">
+            <i class="material-icons">subdirectory_arrow_left</i>
+        </button>
+    </div>
 </div>
 
 <script src="/assets/js/detalhesRemovidos.js"></script>

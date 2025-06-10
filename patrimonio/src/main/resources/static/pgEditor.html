@@ -6,21 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Editar Produto</title>
     <link rel="stylesheet" href="/assets/css/style.css" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons " rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
 <div class="registrar-container">
+    <!-- Prévia da foto -->
+    <div id="previewFoto"></div>
+
     <div class="formulario">
-        <input type="text" id="nomeProduto" placeholder="Digite o nome do produto" />
-        <input type="text" id="areaProduto" placeholder="Digite a área do produto" />
-        <input type="date" id="dataEntrada" />
-        <button id="editar" onclick="editarProduto()"> <i class="material-icons">check</i> </button>
-        <button id="voltar" onclick="voltarPagina()"> <i class="material-icons">subdirectory_arrow_left</i> </button>
-        <button id="Nova foto" onclick="novaFoto()"> <i class="material-icons">add_a_photo</i> </button>
+        <!-- Campos -->
+        <input type="text" id="nomeProduto" placeholder="Digite o nome do produto" required />
+        <input type="text" id="areaProduto" placeholder="Digite a área do produto" required />
+        <input type="date" id="dataEntrada" required />
+
+        <!-- Botões -->
+        <div class="botoes">
+            <button id="btnNovaFoto" title="Adicionar nova foto">
+                <i class="material-icons">add_a_photo</i>
+            </button>
+            <button id="editar" title="Salvar alterações">
+                <i class="material-icons">check</i>
+            </button>
+            <button id="voltar" title="Voltar">
+                <i class="material-icons">subdirectory_arrow_left</i>
+            </button>
+        </div>
     </div>
 </div>
 
+<!-- Script -->
 <script src="/assets/js/pgEditorjs.js"></script>
 </body>
 

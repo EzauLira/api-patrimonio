@@ -1,6 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const elementos = {
+    idProduto: document.getElementById("idProduto"),
+    nomeProduto: document.getElementById("nomeProduto"),
+    areaProduto: document.getElementById("areaProduto"),
+    dataEntrada: document.getElementById("dataEntrada"),
+    foto: document.getElementById("foto"),
+    btnEditar: document.getElementById("editar"),
+    btnRemover: document.getElementById("remover"),
+    btnVoltar: document.getElementById("voltar")
+  };
+
   const params = new URLSearchParams(window.location.search);
-  const numSerie = params.get("numSerie") || params.get("id"); // Suporte tanto para botões como QR Code
+  const numSerie = params.get("numSerie") || params.get("id");
   const area = params.get("area");
   const origem = params.get("origem");
 
@@ -9,76 +20,78 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Define a URL correta com base na origem (removido ou não)
-  let url;
-  if (origem === "removidos") {
-    url = `http://localhost:8080/v1/controle/detalhe-produto-removido/${numSerie}`;
-  } else {
-    url = `http://localhost:8080/v1/controle/detalhes-produto/${numSerie}`;
-  }
+  const url = origem === "removidos"
+    ? `http://localhost:8080/v1/controle/detalhe-produto-removido/${numSerie}`
+    : `http://localhost:8080/v1/controle/detalhes-produto/${numSerie}`;
 
-  // Busca os dados no backend
   fetch(url)
-    .then(response => {
-      if (!response.ok) throw new Error("Erro ao buscar detalhes do produto.");
-      return response.json();
+    .then(res => {
+      if (!res.ok) throw new Error("Erro ao buscar detalhes do produto.");
+      return res.json();
     })
-    .then(produto => preencherDetalhes(produto))
-    .catch(error => {
-      console.error("Erro:", error);
-      document.getElementById("detalhes-ativos").innerText = "Erro ao carregar os detalhes.";
+    .then(preencherDetalhes)
+    .catch(err => {
+      console.error("Erro:", err);
+      elementos.foto.innerText = "Erro ao carregar os detalhes.";
     });
 
-  // Botão voltar
-  const voltarButton = document.getElementById("voltar");
-  voltarButton.addEventListener("click", () => {
-    if (origem === "listaArea") {
+  elementos.btnVoltar.addEventListener("click", () => {
+    if (origem === "listaArea" && area) {
       window.location.href = `listarPorArea.html?area=${encodeURIComponent(area)}`;
     } else {
       window.location.href = "listarProdutos.html";
     }
   });
 
-  // Botão editar
-  const editarButton = document.getElementById("editar");
-  editarButton.addEventListener("click", () => {
-    const novaURL = new URL("pgEditor.html", window.location.origin);
-    novaURL.searchParams.set("numSerie", numSerie);
-    if (area) novaURL.searchParams.set("area", area);
-    if (origem) novaURL.searchParams.set("origem", origem);
-    window.location.href = novaURL.toString();
+  elementos.btnEditar.addEventListener("click", () => {
+    const url = new URL("pgEditor.html", window.location.origin);
+    url.searchParams.set("numSerie", numSerie);
+    if (area) url.searchParams.set("area", area);
+    if (origem) url.searchParams.set("origem", origem);
+    window.location.href = url.toString();
   });
-});
 
-function preencherDetalhes(produto) {
-  document.getElementById("idProduto").innerText = produto.numSerie || produto.numeroSerie;
-  document.getElementById("nomeProduto").innerText = produto.name || produto.nome;
-  document.getElementById("areaProduto").innerText = produto.area;
-  document.getElementById("dataEntrada").innerText = produto.inputDate || produto.dataEntrada;
-}
+  elementos.btnRemover.addEventListener("click", removerProduto);
 
-function remover() {
-  const params = new URLSearchParams(window.location.search);
-  const numSerie = params.get("numSerie") || params.get("id");
+  function preencherDetalhes(produto) {
+    elementos.idProduto.innerText = produto.numSerie || produto.numeroSerie || "-";
+    elementos.nomeProduto.innerText = produto.name || produto.nome || "-";
+    elementos.areaProduto.innerText = produto.area || "-";
+    elementos.dataEntrada.innerText = produto.inputDate || produto.dataEntrada || "-";
 
-  if (!confirm("Tem certeza que deseja remover este produto?")) return;
+    elementos.foto.innerHTML = "";
 
-  fetch(`http://localhost:8080/v1/controle/remover-produto/${numSerie}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
+    if (produto.foto?.length > 0) {
+      const img = document.createElement("img");
+      img.src = `data:image/png;base64,${produto.foto}`;
+      img.alt = "Imagem do produto";
+      img.style.maxWidth = "100%";
+      img.style.borderRadius = "8px";
+      img.style.marginTop = "10px";
+      elementos.foto.appendChild(img);
+    } else {
+      elementos.foto.innerText = "Nenhuma imagem disponível.";
     }
-  })
-    .then(response => {
-      if (!response.ok) throw new Error("Erro ao remover o produto.");
-      return response.json();
+  }
+
+  function removerProduto() {
+    if (!confirm("Tem certeza que deseja remover este produto?")) return;
+
+    fetch(`http://localhost:8080/v1/controle/remover-produto/${numSerie}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" }
     })
-    .then(data => {
-      alert(data.message || "Produto removido com sucesso!");
-      window.location.href = "listarProdutos.html";
-    })
-    .catch(error => {
-      console.error("Erro ao remover:", error);
-      alert("Erro ao remover o produto.");
-    });
-}
+      .then(res => {
+        if (!res.ok) throw new Error("Erro ao remover o produto.");
+        return res.json();
+      })
+      .then(data => {
+        alert(data.message || "Produto removido com sucesso!");
+        window.location.href = "listarProdutos.html";
+      })
+      .catch(err => {
+        console.error("Erro ao remover:", err);
+        alert("Erro ao remover o produto.");
+      });
+  }
+});

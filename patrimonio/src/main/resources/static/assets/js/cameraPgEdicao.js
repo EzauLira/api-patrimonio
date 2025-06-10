@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const cameraContainer = document.getElementById("camera-container");
   const btnCapturar = document.getElementById("btn-capturar");
-  const btnProsseguir = document.getElementById("btn-prosseguir");
   const btnVoltar = document.getElementById("btn-voltar");
 
   let videoElement = null;
@@ -37,14 +36,14 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas.width = videoElement.videoWidth;
     canvas.height = videoElement.videoHeight;
 
-    const contexto = canvas.getContext("2d");
-    contexto.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
 
     const imagem = canvas.toDataURL("image/png");
     sessionStorage.setItem("imagemProduto", imagem);
 
     encerrarCamera();
-    window.location.href = "registrar.html";
+    redirecionarParaEdicao();
   }
 
   function encerrarCamera() {
@@ -53,20 +52,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function prosseguirSemImagem() {
-    sessionStorage.removeItem("imagemProduto");
-    window.location.href = "registrar.html";
-  }
-
-  function voltarAoMenu() {
-    window.location.href = "menu.html";
+  function redirecionarParaEdicao() {
+    const produtoId = sessionStorage.getItem("produtoId") || "";
+    window.location.href = `pgEditor.html?numSerie=${produtoId}`;
   }
 
   // Eventos
   btnCapturar.addEventListener("click", capturarImagem);
-  btnProsseguir.addEventListener("click", prosseguirSemImagem);
-  btnVoltar.addEventListener("click", voltarAoMenu);
+  btnVoltar.addEventListener("click", redirecionarParaEdicao);
 
-  // Inicializar câmera ao carregar
   iniciarCamera();
 });

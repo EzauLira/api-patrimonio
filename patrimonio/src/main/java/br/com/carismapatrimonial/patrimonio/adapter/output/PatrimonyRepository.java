@@ -8,10 +8,8 @@ import br.com.carismapatrimonial.patrimonio.damain.exception.BaseException;
 import br.com.carismapatrimonial.patrimonio.damain.exception.CustomException;
 import br.com.carismapatrimonial.patrimonio.port.output.IPatrimonyRepository;
 import br.com.carismapatrimonial.patrimonio.utils.JdbcUtilsForUpdate;
-import org.apache.el.parser.JJTELParserState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
@@ -39,11 +37,12 @@ public class PatrimonyRepository implements IPatrimonyRepository {
 
         LOGGER.info("Início do Try-Catch e preparamento do objeto para subir no Banco de dados");
         try {
-            var sql = "SELECT * FROM inserir_produtos(?, ?, ?)";
+            var sql = "SELECT * FROM inserir_produtos(?, ?, ?, ?)";
             jdbcTemplate.execute(sql, (PreparedStatementCallback<Void>) preparedStatment -> {
                 preparedStatment.setString(1, patrimony.getName());
                 preparedStatment.setString(2, patrimony.getArea());
                 preparedStatment.setString(3, patrimony.getInputDate());
+                preparedStatment.setBytes(4, patrimony.getFoto());
                 preparedStatment.execute();
                 return null;
             });
@@ -69,7 +68,8 @@ public class PatrimonyRepository implements IPatrimonyRepository {
                             rs.getString("num_serie"),
                             rs.getString("name"),
                             rs.getString("area"),
-                            rs.getString("input_date")
+                            rs.getString("input_date"),
+                            rs.getBytes("foto")
                     )
             );
         }catch (DataAccessException e ){
@@ -95,7 +95,8 @@ public class PatrimonyRepository implements IPatrimonyRepository {
                 new PatrimonyRequestDto(rs.getString("num_serie")
                         ,rs.getString("name")
                         ,rs.getString("area")
-                        ,rs.getString("input_date")));
+                        ,rs.getString("input_date")
+                        ,rs.getBytes("foto")));
 
         }catch (DataAccessException e){
             LOGGER.error("DataAccessException: {}", e.getMessage(), e);
@@ -118,7 +119,8 @@ public class PatrimonyRepository implements IPatrimonyRepository {
                     new PatrimonyRequestDto(rs.getString("num_serie")
                             ,rs.getString("name")
                             ,rs.getString("area")
-                            ,rs.getString("input_date")));
+                            ,rs.getString("input_date")
+                            ,rs.getBytes("foto")));
 
         }catch (DataAccessException e){
             LOGGER.error("DataAccessException: {}", e.getMessage(), e);
@@ -143,7 +145,8 @@ public class PatrimonyRepository implements IPatrimonyRepository {
                     new PatrimonyRequestDto( rs.getString("num_serie"),
                             rs.getString("name")
                             ,rs.getString("area")
-                            ,rs.getString("input_date")));
+                            ,rs.getString("input_date")
+                            ,rs.getBytes("foto")));
 
         }catch (DataAccessException e){
             LOGGER.error("DataAccessException: {}", e.getMessage(), e);
@@ -160,9 +163,9 @@ public class PatrimonyRepository implements IPatrimonyRepository {
 
         LOGGER.info("Início do try-catch e atualizar a area dos dados no banco de dados pela repository.");
         try {
-            var sql = "SELECT * FROM atualizar_produto(?, ?, ?, ?)";
+            var sql = "SELECT * FROM atualizar_produto(?, ?, ?, ?, ?)";
 
-            List<String> params = JdbcUtilsForUpdate.buildParameters(numSerie, updates, "name", "area","inputDate");
+            List<String> params = JdbcUtilsForUpdate.buildParameters(numSerie, updates, "name", "area","inputDate", "foto");
 
             jdbcTemplate.execute(sql.toString(), (PreparedStatementCallback<Void>) preparedStatment -> {
                 for (int i = 0; i < params.size(); i++){
@@ -192,7 +195,8 @@ public class PatrimonyRepository implements IPatrimonyRepository {
                     new PatrimonyResponseDto( rs.getString("num_serie"),
                             rs.getString("name"),
                             rs.getString("area"),
-                            rs.getString("input_date")
+                            rs.getString("input_date"),
+                            rs.getBytes("foto")
                     )
             );
 
@@ -279,7 +283,8 @@ public class PatrimonyRepository implements IPatrimonyRepository {
                     new PatrimonyRequestDto( rs.getString("num_serie"),
                             rs.getString("name")
                             ,rs.getString("area")
-                            ,rs.getString("input_date")));
+                            ,rs.getString("input_date")
+                            ,rs.getBytes("foto")));
 
         }catch (DataAccessException e){
             LOGGER.error("DataAccessException: {}", e.getMessage(), e);
@@ -300,7 +305,8 @@ public class PatrimonyRepository implements IPatrimonyRepository {
                     new PatrimonyRequestDto( rs.getString("num_serie"),
                             rs.getString("name")
                             ,rs.getString("area")
-                            ,rs.getString("input_date")));
+                            ,rs.getString("input_date")
+                            ,rs.getBytes("foto")));
 
         }catch (DataAccessException e){
             LOGGER.error("DataAccessException: {}", e.getMessage(), e);
@@ -316,12 +322,13 @@ public class PatrimonyRepository implements IPatrimonyRepository {
         LOGGER.info("Início do método para filtrar um produto dos removidos - Repository.");
 
         try{
-            var sql = "SELECT * FROM filtrar_produto_removido(?, ?, ?, ?)";
+            var sql = "SELECT * FROM filtrar_produto_removido(?, ?, ?, ?, ?)";
             return jdbcTemplate.query(sql, new Object[]{numSerie, name, area, inputDate}, (rs, rowNum) ->
                     new PatrimonyRequestDto( rs.getString("num_serie"),
                             rs.getString("name")
                             ,rs.getString("area")
-                            ,rs.getString("input_date")));
+                            ,rs.getString("input_date")
+                            ,rs.getBytes("foto")));
 
         }catch (DataAccessException e){
             LOGGER.error("DataAccessException: {}", e.getMessage(), e);

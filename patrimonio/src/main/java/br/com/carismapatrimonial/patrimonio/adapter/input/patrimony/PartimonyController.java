@@ -8,8 +8,10 @@ import br.com.carismapatrimonial.patrimonio.port.input.IPatimony;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -27,11 +29,20 @@ public class PartimonyController implements IPatrimonyController {
 
     //-------------------------------------------------------------------------------------------------------------------------------
     @Override
-    @PostMapping("/registrar")
-    public ResponseEntity<StandardResponseDto> registerProduct(@RequestBody PatrimonyRequestDto patrimonyRequestDto) {
+    @PostMapping(path = "/registrar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<StandardResponseDto> registerProduct(
+            @RequestPart String name,
+            @RequestPart String area,
+            @RequestPart String inputDate,
+            @RequestPart(name = "file", required = false) MultipartFile file) {
+
         LOGGER.info("Início do método para cadastrar um novo produto - controller");
-        iPatimonyService.rigisterProductCommand(patrimonyRequestDto);
-        return ResponseEntity.ok(StandardResponseDto.builder().message("Produto registrado com sucesso!").build());
+
+        iPatimonyService.rigisterProductCommand(name, area, inputDate, file);
+
+        return ResponseEntity.ok(StandardResponseDto.builder()
+                .message("Produto registrado com sucesso!")
+                .build());
     }
     //-------------------------------------------------------------------------------------------------------------------------------
 

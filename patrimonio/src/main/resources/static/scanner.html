@@ -6,12 +6,18 @@
     <title>Scanner</title>
     <link rel="stylesheet" href="/assets/css/style.css" />
     <script src="https://unpkg.com/html5-qrcode"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 <div class="scanner-container">
-<div id="reader"></div>
+    <div id="reader"></div>
     <h2>Escanear QR Code</h2>
-<button onclick="startScan()">Escanear</button>
+    <button type="button" onclick="startScan()">
+        <i class="material-icons">qr_code_scanner</i>
+    </button>
+    <button id="voltar" type="button">
+        <i class="material-icons">subdirectory_arrow_left</i>
+    </button>
 </div>
 
 <script src="/assets/js/scanner.js"></script>

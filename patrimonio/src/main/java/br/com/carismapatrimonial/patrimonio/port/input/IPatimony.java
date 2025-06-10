@@ -3,13 +3,14 @@ package br.com.carismapatrimonial.patrimonio.port.input;
 import br.com.carismapatrimonial.patrimonio.adapter.input.dto.PatrimonyRequestDto;
 import br.com.carismapatrimonial.patrimonio.adapter.input.dto.PatrimonyResponseDto;
 import br.com.carismapatrimonial.patrimonio.adapter.input.dto.ProductDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
 
 public interface IPatimony {
 
-    void rigisterProductCommand (PatrimonyRequestDto patrimonyRequestDto);
+    void rigisterProductCommand (String name, String area, String inputDate, MultipartFile file);
     List<PatrimonyResponseDto> listAllProducts();
 
     PatrimonyRequestDto productDetails(String numSerie);

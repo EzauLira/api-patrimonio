@@ -1,47 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const inputArea = document.getElementById("inputArea");
+  const btnFiltrar = document.getElementById("filtrar");
+  const btnVoltar = document.getElementById("voltar");
+
   const params = new URLSearchParams(window.location.search);
-  const area = params.get("area");
+  const areaURL = params.get("area");
 
-  if (area) {
-    document.getElementById("inputArea").value = area;
-    filtrarProduto(area);
+  if (areaURL) {
+    inputArea.value = areaURL;
+    filtrarProduto(areaURL);
   }
-});
 
-const voltarButton = document.getElementById('voltar');
-
-voltarButton.addEventListener('click', () => {
-  window.location.href = 'menu.html'; // Redireciona para o menu principal
+  btnFiltrar.addEventListener("click", () => filtrarProduto());
+  btnVoltar.addEventListener("click", () => {
+    window.location.href = "menu.html";
+  });
 });
 
 function filtrarProduto(areaParam) {
   const area = areaParam || document.getElementById("inputArea").value.trim();
+  const container = document.getElementById("lista-produtos-area");
+  container.innerHTML = "";
 
   if (!area) {
     alert("Por favor, digite uma área.");
     return;
   }
 
-  const container = document.getElementById("lista-produtos-area");
-  container.innerHTML = ""; // limpa resultados anteriores
-
-  fetch(`http://localhost:8080/v1/controle/listar-produtos-area/${area}`)
-    .then(response => {
-      if (!response.ok) throw new Error("Erro ao buscar os produtos.");
-      return response.json();
+  fetch(`http://localhost:8080/v1/controle/listar-produtos-area/${encodeURIComponent(area)}`)
+    .then(res => {
+      if (!res.ok) throw new Error("Erro ao buscar os produtos.");
+      return res.json();
     })
-    .then(data => mostrarProdutos(data))
-    .catch(error => {
-      console.error("Erro:", error);
+    .then(produtos => mostrarProdutos(produtos))
+    .catch(err => {
+      console.error("Erro ao carregar produtos:", err);
       container.innerHTML = "<p>Erro ao carregar os produtos.</p>";
     });
 }
 
 function mostrarProdutos(produtos) {
   const container = document.getElementById("lista-produtos-area");
-  container.innerHTML = ""; // limpa tabela anterior
+  container.innerHTML = "";
 
-  if (!produtos || produtos.length === 0) {
+  if (!Array.isArray(produtos) || produtos.length === 0) {
     container.innerHTML = "<p>Nenhum produto encontrado.</p>";
     return;
   }
@@ -62,18 +64,24 @@ function mostrarProdutos(produtos) {
           <td>${p.numSerie}</td>
           <td>${p.name}</td>
           <td>${p.area}</td>
-          <td><button onclick="verDetalhes('${p.numSerie}', '${p.area}')"><i class="material-icons">content_paste_search</i></button></td>
+          <td>
+            <button class="btn-detalhes" data-numserie="${p.numSerie}" data-area="${p.area}" title="Ver Detalhes">
+              <i class="material-icons">content_paste_search</i>
+            </button>
+          </td>
         </tr>
-      `).join('')}
+      `).join("")}
     </tbody>
   `;
 
   container.appendChild(tabela);
+
+  // Adiciona evento aos botões de detalhes após renderizar a tabela
+  document.querySelectorAll(".btn-detalhes").forEach(button => {
+    button.addEventListener("click", () => {
+      const numSerie = button.dataset.numserie;
+      const area = button.dataset.area;
+      window.location.href = `detalhesProduto.html?numSerie=${numSerie}&area=${area}&origem=listaArea`;
+    });
+  });
 }
-
-function verDetalhes(numSerie, area) {
-  window.location.href = `detalhesProduto.html?numSerie=${numSerie}&area=${area}&origem=listaArea`;
-}
-
-
-

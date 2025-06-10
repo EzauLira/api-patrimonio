@@ -8,13 +8,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
 
 public interface IPatrimonyController {
 
-    ResponseEntity<StandardResponseDto> registerProduct (PatrimonyRequestDto patrimonyRequestDto);
+    ResponseEntity<StandardResponseDto> registerProduct (String name,String area,String inputDate,MultipartFile file);
     List<PatrimonyResponseDto> listAllProducts();
 
     PatrimonyRequestDto productDetails(String numSerie);

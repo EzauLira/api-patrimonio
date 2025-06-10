@@ -1,22 +1,38 @@
+const voltarButton = document.getElementById('voltar');
 let scanner;
 
 function startScan() {
+  if (scanner) {
+    // Se scanner já está rodando, evita múltiplos starts
+    return;
+  }
+
   scanner = new Html5Qrcode("reader");
 
   scanner.start(
-    { facingMode: "environment" }, // Usa a câmera traseira
+    { facingMode: "environment" }, // câmera traseira
     { fps: 10, qrbox: 250 },
     (decodedText, decodedResult) => {
-      scanner.stop(); // Para o scanner após leitura
-      window.location.href = `detalhesProduto.html?id=${encodeURIComponent(decodedText)}`;
+      scanner.stop().then(() => {
+        // Redireciona com id decodificado (pode ajustar o parâmetro se usar outro nome)
+        window.location.href = `detalhesProduto.html?id=${encodeURIComponent(decodedText)}`;
+      }).catch(err => {
+        console.error("Erro ao parar o scanner:", err);
+      });
     },
     (errorMessage) => {
+      // Pode logar no console, é normal que tenha erros temporários enquanto procura QR
       console.warn("Erro ao escanear:", errorMessage);
     }
   ).catch(err => {
     console.error("Erro ao iniciar scanner:", err);
+    alert("Não foi possível iniciar a câmera. Verifique permissões e tente novamente.");
   });
 }
 
-// Inicia o scanner automaticamente quando a página carregar
+voltarButton.addEventListener('click', () => {
+    window.location.href = 'menu.html';
+});
+
+// Inicia scanner automaticamente ao carregar a página
 window.addEventListener("DOMContentLoaded", startScan);

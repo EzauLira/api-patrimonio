@@ -15,4 +15,5 @@ public class Patrimony {
     private String name;
     private String area;
     private String inputDate;
+    private byte[] foto;
 }

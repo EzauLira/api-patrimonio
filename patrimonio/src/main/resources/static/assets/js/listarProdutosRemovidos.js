@@ -4,8 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const filtroForm = document.getElementById("filtro-form");
   const ocultarFiltroButton = document.getElementById("ocultarFiltroBtn");
 
-  // Começa oculto
-  filtroForm.style.display = "none";
+  filtroForm.style.display = "none"; // Inicia oculto
 
   voltarButton.addEventListener("click", () => {
     window.location.href = "menu.html";
@@ -17,11 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   ocultarFiltroButton.addEventListener("click", () => {
-      filtroForm.style.display = "none";
-      filtrarButton.style.display = "inline-block";
-    });
+    filtroForm.style.display = "none";
+    filtrarButton.style.display = "inline-block";
+  });
 
-  // Carrega os produtos ao abrir a página
+  carregarProdutos();
+});
+
+function carregarProdutos() {
   fetch("http://localhost:8080/v1/controle/listar-produtos-removidos")
     .then((response) => {
       if (!response.ok) throw new Error("Erro ao buscar os produtos.");
@@ -30,14 +32,13 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((data) => mostrarProdutos(data))
     .catch((error) => {
       console.error("Erro:", error);
-      document.getElementById("listar-produtos-removidos").innerHTML =
-      "<p>Erro ao carregar os produtos.</p>";;
+      document.getElementById("lista-produtos").innerHTML =
+        "<p>Erro ao carregar os produtos.</p>";
     });
-});
-
+}
 
 function mostrarProdutos(produtos) {
-  const container = document.getElementById("listar-produtos-removidos");
+  const container = document.getElementById("lista-produtos");
   container.innerHTML = "";
 
   if (!produtos || produtos.length === 0) {
@@ -57,19 +58,19 @@ function mostrarProdutos(produtos) {
       </tr>
     </thead>
     <tbody>
-      ${produtos
-        .map(
-          (p) => `
+      ${produtos.map(p => `
         <tr>
           <td>${p.numSerie}</td>
           <td>${p.name}</td>
           <td>${p.area}</td>
           <td>${p.inputDate}</td>
-          <td><button onclick="verDetalhes('${p.numSerie}', '${p.area}')"><i class="material-icons">content_paste_search</i></button></td>
+          <td>
+            <button onclick="verDetalhes('${p.numSerie}', '${p.area}', 'removidos')" title="Ver Detalhes">
+              <i class="material-icons">content_paste_search</i>
+            </button>
+          </td>
         </tr>
-      `
-        )
-        .join("")}
+      `).join("")}
     </tbody>
   `;
   container.appendChild(tabela);
@@ -103,7 +104,15 @@ function aplicarFiltro() {
     })
     .catch((error) => {
       console.error("Erro:", error);
-      document.getElementById("listar-produtos-removidos").innerHTML =
+      document.getElementById("lista-produtos").innerHTML =
         "<p>Erro ao carregar os produtos.</p>";
     });
+}
+
+function limparFiltros() {
+  document.getElementById("filtroNumSerie").value = "";
+  document.getElementById("filtroNome").value = "";
+  document.getElementById("filtroArea").value = "";
+  document.getElementById("filtroData").value = "";
+  aplicarFiltro();
 }

@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>listar Produtos Ativos</title>
+    <title>Listar Produtos Ativos</title>
     <link rel="stylesheet" href="/assets/css/style.css" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons " rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 </head>
-
 <body>
-    <div class="listarProdutos-container">
-        <h2>Lista de Produtos</h2>
-        <div id="lista-produtos"></div>
-        <br></br>
-        <button id="filtrar"> <i class="material-icons">manage_search</i> </button>
-        <button id="voltar"> <i class="material-icons">home</i></button>
+<div class="listarProdutos-container">
+    <h2>Lista de Produtos</h2>
 
-        <div id="filtro-form" class="filtro">
-            <br></br>
-            <input type="text" id="filtroNumSerie" placeholder="Filtrar por Nº de Série" />
-            <input type="text" id="filtroNome" placeholder="Filtrar por Nome" />
-            <input type="text" id="filtroArea" placeholder="Filtrar por Área" />
-            <input type="date" id="filtroData" />
-            <br></br>
+    <div id="lista-produtos"></div>
 
-            <div class="botoes-filtro">
-                <button onclick="aplicarFiltro()"><i class="material-icons">search</i></button>
-                <button id="ocultarFiltroBtn" type="button"><i class="material-icons">filter_alt_off</i></button>
-            </div>
-        </div>
-
+    <div class="botoes">
+        <button id="filtrar" title="Exibir Filtros"><i class="material-icons">manage_search</i></button>
+        <button id="voltar" title="Voltar ao Menu"><i class="material-icons">home</i></button>
     </div>
 
+    <br></br>
 
-    <script src="/assets/js/listarProdutos.js"></script>
+    <div id="filtro-form" class="filtro">
+        <input type="text" id="filtroNumSerie" placeholder="Filtrar por Nº de Série" />
+        <input type="text" id="filtroNome" placeholder="Filtrar por Nome" />
+        <input type="text" id="filtroArea" placeholder="Filtrar por Área" />
+        <input type="date" id="filtroData" />
+
+        <br></br>
+
+        <div class="botoes-filtro">
+            <button id="aplicarFiltroBtn" title="Aplicar Filtro"><i class="material-icons">search</i></button>
+            <button id="ocultarFiltroBtn" title="Ocultar Filtro"><i class="material-icons">filter_alt_off</i></button>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/js/listarProdutos.js"></script>
 </body>
-
 </html>
